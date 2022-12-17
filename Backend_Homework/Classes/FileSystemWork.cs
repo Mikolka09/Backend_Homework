@@ -19,8 +19,9 @@ namespace Backend_Homework.Classes
         {
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("\t\tFILE SYSTEM MENU\n");
-                Console.Write("\tThe required file is in the folder - \"Source Files\" (Yes - 1, NO - 2): ");
+                Console.Write("The required file is in the folder - \"Source Files\" (Yes - 1, NO - 2): ");
                 int var = int.Parse(Console.ReadLine());
                 switch (var)
                 {
@@ -36,11 +37,11 @@ namespace Backend_Homework.Classes
             }
         }
 
-        //получаем от пользователя полный путь к файлу
+        //get the full path to the file from the user
         private static void FileFullPathCreate()
         {
             //We accept the path from the user, followed by input validation
-            Console.Write("Enter the full path to the file: ");
+            Console.Write("\nEnter the full path to the file: ");
             while (true)
             {
                 string input = Console.ReadLine();
@@ -71,7 +72,7 @@ namespace Backend_Homework.Classes
         private static void FilePathCreate()
         {
             //We accept the path from the user, followed by input validation
-            Console.Write("Enter the full name to the file: ");
+            Console.Write("\nEnter the full name to the file: ");
             while (true)
             {
                 string input = Console.ReadLine();
