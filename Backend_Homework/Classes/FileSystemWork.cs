@@ -98,7 +98,6 @@ namespace Backend_Homework.Classes
             }
         }
 
-        //opening and reading a file
         private static void FileOpenRead()
         {
             if (File.Exists(SourceFileName))
