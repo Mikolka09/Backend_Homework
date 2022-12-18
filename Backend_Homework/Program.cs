@@ -20,29 +20,45 @@ namespace Backend_Homework
     #endregion
     class Program
     {
+
+        public static void StartMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("\t\tWELCOME TO THE CONVERT APPLICATION\n");
+                Console.WriteLine("\tChoose which data store you will work with:\n" +
+                    "\t1. File system\n\t2. Cloud Storage\n\t3. HTTP Storage\n\t4. Exit\n");
+                Console.Write("\tPlease, your choice: ");
+                int var = int.Parse(Console.ReadLine());
+                switch (var)
+                {
+                    case 1:
+                        FileSystemWork.Menu();
+                        break;
+                    case 2:
+                        Console.WriteLine("\nSorry, this method is under development!");
+                        break;
+                    case 3:
+                        Console.WriteLine("\nSorry, this method is under development!");
+                        break;
+                    case 4:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("\n\n\t[ERROR]: Invalid input");
+                        Console.WriteLine("\tTry entering your choice again");
+                        Task.Delay(2000).Wait();
+                        break;
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            Console.WriteLine("\t\tWELCOME TO THE CONVERT APPLICATION\n");
-            Console.WriteLine("\tChoose which data store you will work with:\n" +
-                "\t1. File system\n\t2. Cloud Storage\n\t3. HTTP Storage\n");
-            Console.Write("\tPlease, your choice: ");
-            int var = int.Parse(Console.ReadLine());
-            switch (var)
-            {
-                case 1:
-                    FileSystemWork.Menu();
-                    break;
-                case 2:
-                    Console.WriteLine("\nSorry, this method is under development!");
-                    break;
-                case 3:
-                    Console.WriteLine("\nSorry, this method is under development!");
-                    break;
-                default:
-                    break;
-            }
-
-
+           
+            StartMenu();
 
             #region old buggy code
             //the folder and file were not created at the given path, it will throw an exception "FileNotFoundException"

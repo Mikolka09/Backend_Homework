@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Backend_Homework.Classes
 {
@@ -13,6 +14,7 @@ namespace Backend_Homework.Classes
         private static string? TargetFileName { get; set; }
 
         public static string? TextDocument { get; private set; }
+        public static string? TypeFile { get; private set; }
 
 
         public static void Menu()
@@ -21,7 +23,7 @@ namespace Backend_Homework.Classes
             {
                 Console.Clear();
                 Console.WriteLine("\t\tFILE SYSTEM MENU\n");
-                Console.Write("The required file is in the folder - \"Source Files\" (Yes - 1, NO - 2): ");
+                Console.Write("The required file is in the folder - \"Source Files\" (YES - 1, NO - 2, Back - 3): ");
                 int var = int.Parse(Console.ReadLine());
                 switch (var)
                 {
@@ -31,7 +33,14 @@ namespace Backend_Homework.Classes
                     case 2:
                         FileFullPathCreate();
                         break;
+                    case 3:
+                        Program.StartMenu();
+                        break;
                     default:
+                        Console.Clear();
+                        Console.WriteLine("\n\n\t[ERROR]: Invalid input");
+                        Console.WriteLine("\tTry entering your choice again");
+                        Task.Delay(2000).Wait();
                         break;
                 }
             }
@@ -51,6 +60,7 @@ namespace Backend_Homework.Classes
                     if (!string.IsNullOrEmpty(Path.GetExtension(input)))
                     {
                         SourceFileName = input;
+                        TypeFile = input.Substring(input.LastIndexOf("."));
                         FileOpenRead();
                         break;
                     }
@@ -81,6 +91,7 @@ namespace Backend_Homework.Classes
                     if (!string.IsNullOrEmpty(Path.GetExtension(input)))
                     {
                         SourceFileName = Path.Combine(Environment.CurrentDirectory, "..\\..\\..\\Source Files\\" + input);
+                        TypeFile = input.Split('.')[1];
                         FileOpenRead();
                         break;
                     }
@@ -111,6 +122,7 @@ namespace Backend_Homework.Classes
                         if (!string.IsNullOrEmpty(input))
                         {
                             TextDocument = input;
+                            ConvertTypes.Menu();
                         }
                         else
                         {
@@ -122,6 +134,85 @@ namespace Backend_Homework.Classes
             else
             {
                 Console.WriteLine("\n[ERROR]: The path to the file is incorrect or the file does not exist");
+            }
+        }
+
+        public static void FilePathSave()
+        {
+            Console.Clear();
+            Console.WriteLine("\t\tFILE SYSTEM SAVING\n");
+            //We accept the path from the user, followed by input validation
+            Console.Write("\nEnter a filename to save: ");
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (!string.IsNullOrEmpty(input))
+                {
+                    string fileName = input + ConvertTypes.TypeNewFile;
+                    TargetFileName = Path.Combine(Environment.CurrentDirectory, "..\\..\\..\\Target Files\\" + fileName);
+                    FileOpenWrite(ConvertTypes.TypeNewFile!.Split('.')[1]);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\n[ERROR]: Invalid input");
+                    Console.Write("Retry Enter a filename to save: ");
+                }
+            }
+        }
+
+        private static void FileOpenWrite(string type)
+        {
+            using (FileStream fileStream = File.Open(TargetFileName, FileMode.Create, FileAccess.Write))
+            {
+                using (StreamWriter stream = new StreamWriter(fileStream))
+                {
+                    switch (type)
+                    {
+                        case "xml":
+                            break;
+                        case "yaml":
+                            break;
+                        case "bson":
+                            break;
+                        case "json":
+                            stream.Write(ConvertTypes.JsonDoc);
+                            break;
+                        default:
+                            Console.WriteLine("\n[ERROR]: Invalid input");
+                            Console.WriteLine("Unknown format");
+                            Task.Delay(2000).Wait();
+                            break;
+                    }
+                }
+            }
+            FinishMenu();
+        }
+
+        private static void FinishMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("\t\tFILE SYSTEM FINISH OPERATION\n");
+                Console.WriteLine("\n\tThe file has been converted and saved!\n");
+                Console.Write("Want to convert another file? (YES - 1, NO - 2)");
+                int var = int.Parse(Console.ReadLine());
+                switch (var)
+                {
+                    case 1:
+                        Program.StartMenu();
+                        break;
+                    case 2:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("\n\n\t[ERROR]: Invalid input");
+                        Console.WriteLine("\tTry entering your choice again");
+                        Task.Delay(2000).Wait();
+                        break;
+                }
             }
         }
     }
