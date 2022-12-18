@@ -142,7 +142,7 @@ namespace Backend_Homework.Classes
             Console.Clear();
             Console.WriteLine("\t\tFILE SYSTEM SAVING\n");
             //We accept the path from the user, followed by input validation
-            Console.Write("\nEnter a filename to save: ");
+            Console.Write("Enter a filename to save: ");
             while (true)
             {
                 string input = Console.ReadLine();
@@ -170,10 +170,13 @@ namespace Backend_Homework.Classes
                     switch (type)
                     {
                         case "xml":
+                            stream.Write(ConvertTypes.XmlDoc);
                             break;
                         case "yaml":
+                            stream.Write(ConvertTypes.YamlDoc);
                             break;
                         case "bson":
+                            stream.Write(ConvertTypes.BsonDoc);
                             break;
                         case "json":
                             stream.Write(ConvertTypes.JsonDoc);
@@ -196,7 +199,7 @@ namespace Backend_Homework.Classes
                 Console.Clear();
                 Console.WriteLine("\t\tFILE SYSTEM FINISH OPERATION\n");
                 Console.WriteLine("\n\tThe file has been converted and saved!\n");
-                Console.Write("Want to convert another file? (YES - 1, NO - 2)");
+                Console.Write("Want to convert another file? (YES - 1, NO - 2): ");
                 int var = int.Parse(Console.ReadLine());
                 switch (var)
                 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend_Homework.Classes
 {
-    internal class Document
+    public class Document
     {
         public string? Title { get; set; }
         public string? Text { get; set; }

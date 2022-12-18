@@ -37,10 +37,14 @@ namespace Backend_Homework
                         FileSystemWork.Menu();
                         break;
                     case 2:
-                        Console.WriteLine("\nSorry, this method is under development!");
+                        Console.Clear();
+                        Console.WriteLine("\n\n\tSorry, this method is under development!");
+                        Task.Delay(2000).Wait();
                         break;
                     case 3:
-                        Console.WriteLine("\nSorry, this method is under development!");
+                        Console.Clear();
+                        Console.WriteLine("\n\n\tSorry, this method is under development!");
+                        Task.Delay(2000).Wait();
                         break;
                     case 4:
                         Environment.Exit(0);
