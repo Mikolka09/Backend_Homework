@@ -20,7 +20,7 @@ namespace Backend_Homework
     #endregion
     class Program
     {
-
+        //application start menu
         public static void StartMenu()
         {
             while (true)

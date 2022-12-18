@@ -16,15 +16,16 @@ using SharpYaml.Serialization;
 
 namespace Backend_Homework.Classes
 {
-    internal class ConvertTypes
+    public class ConvertTypes
     {
-        private static Document? Doc { get; set; }
+        public static Document? Doc { get; set; } = new Document();
         public static string? XmlDoc { get; private set; }
         public static string? JsonDoc { get; private set; }
         public static string? BsonDoc { get; private set; }
         public static string? YamlDoc { get; private set; }
         public static string? TypeNewFile { get; private set; }
 
+        //conversion menu for types
         public static void Menu()
         {
             Console.Clear();
@@ -62,47 +63,75 @@ namespace Backend_Homework.Classes
             }
         }
 
+        //parsing a string into a document object
         private static void ParsingToDocument()
         {
-            Doc = new Document();
-            switch (FileSystemWork.TypeFile)
+            string? input = FileSystemWork.TextDocument;
+            string? type = FileSystemWork.TypeFile;
+            switch (type)
             {
                 case "xml":
-                    var xdoc = XDocument.Parse(FileSystemWork.TextDocument);
-                    if (xdoc.Root is not null)
-                    {
-                        Doc.Title = xdoc.Root.Element("title")!.Value;
-                        Doc.Text = xdoc.Root.Element("text")!.Value;
-                    }
+                    ParsingXmlToDocument(input);
                     break;
                 case "yaml":
-                    var yamlSerializer = new Serializer();
-                    Doc = yamlSerializer.Deserialize<Document>(FileSystemWork.TextDocument);
+                    ParsingYamlToDocument(input);
                     break;
                 case "bson":
-                    byte[] bytes = Convert.FromBase64String(FileSystemWork.TextDocument);
-                    using (MemoryStream ms = new MemoryStream(bytes))
-                    {
-                        using (BsonDataReader reader = new BsonDataReader(ms))
-                        {
-                            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
-                            Doc = serializer.Deserialize<Document>(reader);
-                        }
-                    }
+                    ParsingBsonToDocument(input);
                     break;
                 case "json":
-                    dynamic? jdoc = JsonConvert.DeserializeObject(FileSystemWork.TextDocument);
-                    if (jdoc != null)
-                    {
-                        Doc.Title = jdoc.Title;
-                        Doc.Text = jdoc.Text;
-                    }
+                    ParsingJsonToDocument(input);
                     break;
                 default:
                     break;
             }
         }
 
+
+        //parsing a xml into a document object
+        public static void ParsingXmlToDocument(string? input)
+        {
+            var xdoc = XDocument.Parse(input);
+            if (xdoc.Root is not null)
+            {
+                Doc.Title = xdoc.Root.Element("title")!.Value;
+                Doc.Text = xdoc.Root.Element("text")!.Value;
+            }
+        }
+
+        //parsing a yaml into a document object
+        public static void ParsingYamlToDocument(string? input)
+        {
+            var yamlSerializer = new Serializer();
+            Doc = yamlSerializer.Deserialize<Document>(input);
+        }
+
+        //parsing a bson into a document object
+        public static void ParsingBsonToDocument(string? input)
+        {
+            byte[] bytes = Convert.FromBase64String(input);
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                using (BsonDataReader reader = new BsonDataReader(ms))
+                {
+                    Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+                    Doc = serializer.Deserialize<Document>(reader);
+                }
+            }
+        }
+
+        //parsing a json into a document object
+        public static void ParsingJsonToDocument(string? input)
+        {
+            dynamic? jdoc = JsonConvert.DeserializeObject(input);
+            if (jdoc != null)
+            {
+                Doc.Title = jdoc.Title;
+                Doc.Text = jdoc.Text;
+            }
+        }
+
+        //converting a document object into a format json
         private static void ConvertToJSON()
         {
             ParsingToDocument();
@@ -111,6 +140,7 @@ namespace Backend_Homework.Classes
             MenuSave();
         }
 
+        //converting a document object into a format xml
         private static void ConvertToXML()
         {
             ParsingToDocument();
@@ -124,6 +154,7 @@ namespace Backend_Homework.Classes
             MenuSave();
         }
 
+        //converting a document object into a format bson
         private static void ConvertToBSON()
         {
             ParsingToDocument();
@@ -140,6 +171,7 @@ namespace Backend_Homework.Classes
             MenuSave();
         }
 
+        //converting a document object into a format yaml
         private static void ConvertToYAML()
         {
             ParsingToDocument();
@@ -149,6 +181,7 @@ namespace Backend_Homework.Classes
             MenuSave();
         }
 
+        //menu for selecting the type of saving the converted document
         private static void MenuSave()
         {
             while (true)

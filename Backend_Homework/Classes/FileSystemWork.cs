@@ -16,7 +16,7 @@ namespace Backend_Homework.Classes
         public static string? TextDocument { get; private set; }
         public static string? TypeFile { get; private set; }
 
-
+        //menu to select file upload
         public static void Menu()
         {
             while (true)
@@ -110,6 +110,7 @@ namespace Backend_Homework.Classes
             }
         }
 
+        //method to open and read from a file
         private static void FileOpenRead()
         {
             if (File.Exists(SourceFileName))
@@ -126,17 +127,22 @@ namespace Backend_Homework.Classes
                         }
                         else
                         {
-                            Console.WriteLine("\n[ERROR]: Read error or file is empty");
+                            Console.Clear();
+                            Console.WriteLine("\n\n\t[ERROR]: Read error or file is empty");
+                            Task.Delay(2000).Wait();
                         }
                     }
                 }
             }
             else
             {
-                Console.WriteLine("\n[ERROR]: The path to the file is incorrect or the file does not exist");
+                Console.Clear();
+                Console.WriteLine("\n\n\t[ERROR]: The path to the file is incorrect or the file does not exist");
+                Task.Delay(2000).Wait();
             }
         }
 
+        //method to create full path to save file
         public static void FilePathSave()
         {
             Console.Clear();
@@ -161,6 +167,7 @@ namespace Backend_Homework.Classes
             }
         }
 
+        //method to save converted data to file
         private static void FileOpenWrite(string type)
         {
             using (FileStream fileStream = File.Open(TargetFileName, FileMode.Create, FileAccess.Write))
@@ -192,6 +199,7 @@ namespace Backend_Homework.Classes
             FinishMenu();
         }
 
+        //completion menu
         private static void FinishMenu()
         {
             while (true)
